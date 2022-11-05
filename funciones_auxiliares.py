@@ -46,6 +46,10 @@ def dcg_usuario(top_n_verdadero: list, recomendaciones: list, arroba: int):
     return dcg
 
 
+def distancia(item_1, item_2):
+    return -1
+
+
 def obtener_access_token_para_la_api_de_spotify(client_id, client_secret):
     client_id_and_client_secret = client_id + ':' + client_secret
     client_id_and_client_secret = str(b64encode(client_id_and_client_secret.encode()))[2:-1]

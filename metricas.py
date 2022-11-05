@@ -45,3 +45,14 @@ def novedad(recomendaciones, items, interacciones):
             (1 - probabilidad_de_conocer_dado_item(item))
         )
     return novedad
+
+
+# Diversidad
+
+
+def diversidad(recomendaciones):
+    distancias = 0
+    for n in range(1, len(recomendaciones)):
+        for k in range(0, n):
+            distancias += distancia(recomendaciones[n], recomendaciones[k])
+    return 2 * distancias / (len(recomendaciones) * (len(recomendaciones) - 1))
