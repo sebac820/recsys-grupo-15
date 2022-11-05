@@ -1,4 +1,7 @@
-from funciones_auxiliares import average_precision, dcg_usuario
+from funciones_auxiliares import (
+    average_precision, dcg_usuario, probabilidad_de_conocer_dado_item,
+    probabilidad_de_item_dada_lista_de_recomendaciones
+)
 from math import log2
 
 
@@ -28,3 +31,17 @@ def mean_average_precision(top_n_verdadero_por_usuario: dict, recomendaciones: d
     for usuario, top_n_verdadero in top_n_verdadero_por_usuario.items():
         suma_de_average_precisions += average_precision(top_n_verdadero, recomendaciones[usuario], arroba)
     return suma_de_average_precisions / len(top_n_verdadero_por_usuario)
+
+
+# Novedad
+
+
+def novedad(recomendaciones, items, interacciones):
+    novedad = 0
+    for item in recomendaciones:
+        novedad += (
+            probabilidad_de_item_dada_lista_de_recomendaciones(item, recomendaciones, items, interacciones)
+            *
+            (1 - probabilidad_de_conocer_dado_item(item))
+        )
+    return novedad

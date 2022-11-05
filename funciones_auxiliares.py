@@ -56,3 +56,17 @@ def obtener_access_token_para_la_api_de_spotify(client_id, client_secret):
         json=True
     )
     return json.loads(response.text)['access_token']
+
+
+def probabilidad_de_conocer_dado_item(item, interacciones, usuarios):
+    usuarios_que_conocen_el_item = interacciones[interacciones['track_id_clean'] == item]['session_id'].unique()
+    return len(usuarios_que_conocen_el_item) / len(usuarios)
+
+
+def probabilidad_de_item(item, interacciones):
+    return len(interacciones[interacciones['track_id_clean'] == item]) / len(interacciones)
+
+
+def probabilidad_de_item_dada_lista_de_recomendaciones(item, recomendaciones, items, interacciones):
+    return probabilidad_de_item(item, interacciones) * len(items) / len(recomendaciones)
+    
