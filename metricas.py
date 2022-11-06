@@ -1,5 +1,5 @@
 from funciones_auxiliares import (
-    average_precision, dcg_usuario, probabilidad_de_conocer_dado_item,
+    average_precision, dcg_usuario, distancia, probabilidad_de_conocer_dado_item,
     probabilidad_de_item_dada_lista_de_recomendaciones
 )
 from math import log2
@@ -19,7 +19,7 @@ def ndcg(top_n_verdadero_por_usuario: dict, recomendaciones: dict, arroba: int):
     for usuario, top_n_verdadero in top_n_verdadero_por_usuario.items():
         recomendaciones_usuario = recomendaciones[usuario]
         suma_ndcgs += dcg_usuario(top_n_verdadero, recomendaciones_usuario, arroba) / idcg
-    # Obtener NDCG promedio:
+    # Retornar NDCG promedio:
     return suma_ndcgs / len(top_n_verdadero_por_usuario)
 
 
@@ -27,9 +27,12 @@ def ndcg(top_n_verdadero_por_usuario: dict, recomendaciones: dict, arroba: int):
 
 
 def mean_average_precision(top_n_verdadero_por_usuario: dict, recomendaciones: dict, arroba: int):
+    # Inicializar suma de average precisions:
     suma_de_average_precisions = 0
+    # Para cada usuario, calcular su average precision y agregarlo a la suma de average precisions:
     for usuario, top_n_verdadero in top_n_verdadero_por_usuario.items():
         suma_de_average_precisions += average_precision(top_n_verdadero, recomendaciones[usuario], arroba)
+    # Retornar average precision promedio:
     return suma_de_average_precisions / len(top_n_verdadero_por_usuario)
 
 

@@ -1,5 +1,6 @@
 from base64 import b64encode
 from math import log2
+import scipy
 import json
 import requests
 
@@ -47,7 +48,7 @@ def dcg_usuario(top_n_verdadero: list, recomendaciones: list, arroba: int):
 
 
 def distancia(item_1, item_2):
-    return -1
+    return scipy.spatial.distance.cosine(item_1, item_2)
 
 
 def obtener_access_token_para_la_api_de_spotify(client_id, client_secret):
