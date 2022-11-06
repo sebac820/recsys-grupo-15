@@ -77,9 +77,9 @@ def probabilidad_de_item_dada_lista_de_recomendaciones(item, recomendaciones, it
     return probabilidad_de_item(item, interacciones) * len(items) / len(recomendaciones)
 
 
-def configurar_pyplot():
+def configurar_pyplot(xlabel='', ylabel=''):
     plt.figure(figsize=(16, 9))
-    plt.xlabel('Cantidad de reproducciones', fontsize='x-large')
+    plt.xlabel(xlabel, fontsize='x-large')
     plt.xticks(fontsize='large')
-    plt.ylabel('Cantidad de canciones', fontsize='x-large')
+    plt.ylabel(ylabel, fontsize='x-large')
     plt.yticks(fontsize='large')
