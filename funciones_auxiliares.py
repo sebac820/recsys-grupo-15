@@ -1,5 +1,6 @@
 from base64 import b64encode
 from math import log2
+import matplotlib.pyplot as plt
 import scipy
 import json
 import requests
@@ -74,4 +75,11 @@ def probabilidad_de_item(item, interacciones):
 
 def probabilidad_de_item_dada_lista_de_recomendaciones(item, recomendaciones, items, interacciones):
     return probabilidad_de_item(item, interacciones) * len(items) / len(recomendaciones)
-    
+
+
+def configurar_pyplot():
+    plt.figure(figsize=(16, 9))
+    plt.xlabel('Cantidad de reproducciones', fontsize='x-large')
+    plt.xticks(fontsize='large')
+    plt.ylabel('Cantidad de canciones', fontsize='x-large')
+    plt.yticks(fontsize='large')
