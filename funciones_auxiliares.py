@@ -1,7 +1,6 @@
 from base64 import b64encode
 from math import log2
 import matplotlib.pyplot as plt
-import scipy
 import json
 import requests
 
