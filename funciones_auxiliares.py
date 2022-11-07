@@ -81,13 +81,18 @@ def probabilidad_de_item_1_dado_item_2(item_1, item_2, interacciones):
     for usuario in usuarios_que_han_accedido_a_item_1:
         if usuario in usuarios_que_han_accedido_a_item_2:
             numero_de_usuarios_que_han_accedido_a_ambos_items += 1
-    return numero_de_usuarios_que_han_accedido_a_ambos_items / len(usuarios_que_han_accedido_a_item_2)
+    if len(usuarios_que_han_accedido_a_item_2) > 0:
+        return numero_de_usuarios_que_han_accedido_a_ambos_items / len(usuarios_que_han_accedido_a_item_2)
+    return 0
 
 
 def probabilidad_de_item_dado_usuario(item, usuario, interacciones):
     numero_de_interacciones_con_item = len(interacciones[(interacciones['session_id'] == usuario) & (interacciones['track_id'] == item)])
     numero_de_interacciones = len(interacciones[interacciones['session_id'] == usuario])
-    return numero_de_interacciones_con_item / numero_de_interacciones
+    probabilidad_de_item_dado_usuario = numero_de_interacciones_con_item / numero_de_interacciones
+    if probabilidad_de_item_dado_usuario > 0:
+        return probabilidad_de_item_dado_usuario
+    return 0.0000000001
 
 
 def probabilidad_de_que_item_sea_conocido_por_usuario(item, usuario, interacciones):
