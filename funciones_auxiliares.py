@@ -1,7 +1,6 @@
 from base64 import b64encode
 from math import log2
 import matplotlib.pyplot as plt
-import scipy
 import json
 import requests
 
@@ -28,6 +27,14 @@ def average_precision(top_n_verdadero: list, recomendaciones: list, arroba: int)
     # other-evaluation-metrics-6881e0ee21a9
 
 
+def configurar_pyplot(xlabel='', ylabel=''):
+    plt.figure(figsize=(16, 9))
+    plt.xlabel(xlabel, fontsize='x-large')
+    plt.xticks(fontsize='large')
+    plt.ylabel(ylabel, fontsize='x-large')
+    plt.yticks(fontsize='large')
+
+
 def dcg_usuario(top_n_verdadero: list, recomendaciones: list, arroba: int):
     # Evitar errores de "index out of range":
     limite_top_n_verdadero = min(arroba, len(top_n_verdadero))
@@ -48,10 +55,6 @@ def dcg_usuario(top_n_verdadero: list, recomendaciones: list, arroba: int):
     return dcg
 
 
-def distancia(item_1, item_2):
-    return scipy.spatial.distance.cosine(item_1, item_2)
-
-
 def obtener_access_token_para_la_api_de_spotify(client_id, client_secret):
     client_id_and_client_secret = client_id + ':' + client_secret
     client_id_and_client_secret = str(b64encode(client_id_and_client_secret.encode()))[2:-1]
@@ -62,24 +65,3 @@ def obtener_access_token_para_la_api_de_spotify(client_id, client_secret):
         json=True
     )
     return json.loads(response.text)['access_token']
-
-
-def probabilidad_de_conocer_dado_item(item, interacciones, usuarios):
-    usuarios_que_conocen_el_item = interacciones[interacciones['track_id_clean'] == item]['session_id'].unique()
-    return len(usuarios_que_conocen_el_item) / len(usuarios)
-
-
-def probabilidad_de_item(item, interacciones):
-    return len(interacciones[interacciones['track_id_clean'] == item]) / len(interacciones)
-
-
-def probabilidad_de_item_dada_lista_de_recomendaciones(item, recomendaciones, items, interacciones):
-    return probabilidad_de_item(item, interacciones) * len(items) / len(recomendaciones)
-
-
-def configurar_pyplot(xlabel='', ylabel=''):
-    plt.figure(figsize=(16, 9))
-    plt.xlabel(xlabel, fontsize='x-large')
-    plt.xticks(fontsize='large')
-    plt.ylabel(ylabel, fontsize='x-large')
-    plt.yticks(fontsize='large')
