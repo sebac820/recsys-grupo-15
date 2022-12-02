@@ -27,6 +27,12 @@ def dcg(true_top_n: list, recommendations: list, at: int):
     return dcg
 
 
+def idcg(at: int):
+    idcg = 0
+    for i in range(1, at+1):
+        idcg += 1 / log2(i + 1)
+    return idcg
+
 
 def ndcg(top_n_verdadero_por_usuario: dict, recomendaciones: dict, arroba: int):
     # Inicializar suma de NDCGs:
@@ -75,7 +81,7 @@ def mean_average_precision(top_n_verdadero_por_usuario: dict, recomendaciones: d
 
 
 def novelty_for_single_user(user_id: str, recommended_items: np.ndarray, interactions: pd.DataFrame, item_features: pd.DataFrame):
-    user_history = np.array(interactions[interactions['user_id'] == user_id]['track_id'])
+    user_history = np.array(interactions[interactions['session_id'] == user_id]['track_id'])
     recommended_items = np.array(recommended_items)
     novelty = 0
     for recommended_item_id in recommended_items:
@@ -102,7 +108,7 @@ def diversity_for_single_user(recommendations: list, item_features: pd.DataFrame
     for n in np.arange(1, len_recommendations):
         item_n = item_features.loc[recommendations[n]]
         for k in np.arange(0, n):
-            distances += scipy.spatial.distance.cosine(item_n, item_features[recommendations[k]])
+            distances += scipy.spatial.distance.cosine(item_n, item_features.loc[recommendations[k]])
     return 2 * distances / (len_recommendations * (len_recommendations - 1))
 
 
