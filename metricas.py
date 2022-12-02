@@ -7,7 +7,7 @@ import scipy.spatial.distance
 # NDCG
 
 
-def dcg(true_top_n: list, recommendations: list, at: int):
+def dcg(true_top_n: np.ndarray, recommendations: np.ndarray, at: int):
     # Evitar errores de "index out of range":
     true_top_n_limit = min(at, len(true_top_n))
     # Inicializar la suma de gains en cero:
@@ -51,7 +51,7 @@ def ndcg(top_n_verdadero_por_usuario: dict, recomendaciones: dict, arroba: int):
 # MAP
 
 
-def average_precision(true_top_n: list, recommendations: list, at: int):
+def average_precision(true_top_n: np.ndarray, recommendations: np.ndarray, at: int):
     # Evitar "index out of range":
     true_top_n_limit = min(at, len(true_top_n))
     # Inicializar variables en cero:
@@ -80,9 +80,7 @@ def mean_average_precision(top_n_verdadero_por_usuario: dict, recomendaciones: d
 # Novedad
 
 
-def novelty_for_single_user(user_id: str, recommended_items: np.ndarray, interactions: pd.DataFrame, item_features: pd.DataFrame):
-    user_history = np.array(interactions[interactions['session_id'] == user_id]['track_id'])
-    recommended_items = np.array(recommended_items)
+def novelty_for_single_user(user_history: np.ndarray, recommended_items: np.ndarray, item_features: pd.DataFrame):
     novelty = 0
     for recommended_item_id in recommended_items:
         recommended_item_features = item_features.loc[recommended_item_id]
@@ -102,7 +100,7 @@ def novelty_for_multiple_users(users_and_recommendations: dict, interactions: pd
 # Diversidad
 
 
-def diversity_for_single_user(recommendations: list, item_features: pd.DataFrame):
+def diversity_for_single_user(recommendations: np.ndarray, item_features: pd.DataFrame):
     len_recommendations = len(recommendations)
     distances = 0
     for n in np.arange(1, len_recommendations):
