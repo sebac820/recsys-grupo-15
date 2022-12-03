@@ -1,6 +1,7 @@
 *.tar
 *.pdf
 *.csv
+data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
